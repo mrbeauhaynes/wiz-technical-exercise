@@ -1,0 +1,13 @@
+{
+  "name": "wiz-task-app",
+  "version": "1.0.0",
+  "description": "Two-tier web application for Wiz Technical Exercise",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^7.8.0"
+  }
+}
