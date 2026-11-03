@@ -80,13 +80,15 @@ resource "aws_eks_node_group" "private_nodes" {
   node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = [aws_subnet.private_1.id, aws_subnet.private_2.id]
 
+  # Use Amazon Linux 2023 for Kubernetes 1.30+
+  ami_type       = "AL2023_x86_64_STANDARD"
+  instance_types = ["t3.medium"]
+
   scaling_config {
     desired_size = 2
     max_size     = 3
     min_size     = 1
   }
-
-  instance_types = ["t3.medium"]
 
   depends_on = [
     aws_iam_role_policy_attachment.node_worker,

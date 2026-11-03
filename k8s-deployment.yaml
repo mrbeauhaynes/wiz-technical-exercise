@@ -3,7 +3,6 @@ kind: Namespace
 metadata:
   name: wiz-app
 ---
-# Requirement: Overprivileged Service Account assigned cluster-wide cluster-admin
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -15,9 +14,9 @@ kind: ClusterRoleBinding
 metadata:
   name: webapp-cluster-admin-binding
 subjects:
-- kind: ServiceAccount
-  name: webapp-overprivileged-sa
-  namespace: wiz-app
+  - kind: ServiceAccount
+    name: webapp-overprivileged-sa
+    namespace: wiz-app
 roleRef:
   kind: ClusterRole
   name: cluster-admin
@@ -42,28 +41,27 @@ spec:
     spec:
       serviceAccountName: webapp-overprivileged-sa
       containers:
-      - name: webapp
-        image: <YOUR_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/wiz-webapp:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        # Requirement: MongoDB connection configured via environment variable
-        - name: MONGO_URI
-          value: "mongodb://appuser:apppassword@<MONGODB_PRIVATE_IP>:27017/tododb?authSource=tododb"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 80
-          initialDelaySeconds: 15
-          periodSeconds: 10
-        resources:
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
-          requests:
-            cpu: "250m"
-            memory: "256Mi"
+        - name: webapp
+          image: 671460501885.dkr.ecr.us-east-1.amazonaws.com/wiz-webapp:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: MONGO_URI
+              value: "mongodb://appuser:apppassword@10.0.1.140:27017/tododb?authSource=tododb"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service
@@ -79,6 +77,6 @@ spec:
   selector:
     app: webapp
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
