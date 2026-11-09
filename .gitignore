@@ -13,3 +13,5 @@ EOF
 git init -b main
 git add .
 git commit -m "feat: initial commit of wiz assessment architecture and devsecops pipeline"
+.kube/
+config
