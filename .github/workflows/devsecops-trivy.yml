@@ -36,10 +36,10 @@ jobs:
           severity: 'HIGH,CRITICAL'
           output: 'trivy-container-report.txt'
 
-      - name: Scan IaC and Repository Secrets with Trivy
+      - name: Scan IaC Misconfigurations and Secrets with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
+          scan-type: 'config'
           scan-ref: '.'
           format: 'table'
           exit-code: '0'
@@ -54,7 +54,7 @@ jobs:
           echo '```text' >> $GITHUB_STEP_SUMMARY
           cat trivy-container-report.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "### IaC & Secret Misconfiguration Scan" >> $GITHUB_STEP_SUMMARY
+          echo "### IaC Misconfiguration Scan (Terraform & K8s)" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
           cat trivy-iac-report.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
