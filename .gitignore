@@ -1,17 +1,18 @@
-# Create .gitignore
-cat << 'EOF' > .gitignore
+# Terraform local state and binaries
 .terraform/
 *.tfstate
 *.tfstate.*
 *.tfvars
 crash.log
+
+# Dependencies and OS noise
 node_modules/
 .DS_Store
-EOF
 
-# Initialize git repository
-git init -b main
-git add .
-git commit -m "feat: initial commit of wiz assessment architecture and devsecops pipeline"
+# Local kubeconfig and keys
 .kube/
 config
+
+# Rehearsal and utility scripts
+*.sh
+s3bucketremediation
